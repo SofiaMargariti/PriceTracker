@@ -1,6 +1,7 @@
 package com.example.sofia.pricetracker;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-class PriceTracker {
+class PriceTracker extends AsyncTask<Void, Void, Void> {
 
     private final String baseSkuUrl = "https://www.skroutz.com/sku/";
     private HashMap tracked;
@@ -35,20 +36,21 @@ class PriceTracker {
         return response.body().string();
     }
 
-    protected void checkPrices() {
+    private void checkPrices() {
         Iterator it = tracked.entrySet().iterator();
         String result;
-        Long minPrice, newMinPrice;
+        Double minPrice, newMinPrice;
         while(it.hasNext()){
             Map.Entry pair = (Map.Entry)it.next();
             String sku_id = (String) pair.getKey();
-            minPrice = (Long)((HashMap) pair.getValue()).get("min_price");
+            HashMap<String, String> value = (HashMap<String, String>)pair.getValue();
+            minPrice = Double.parseDouble(value.get("min_price"));
             String skuUrl = baseSkuUrl + sku_id;
             try {
                 result = run(skuUrl);
                 if (result != null){
                     JSONObject obj = new JSONObject(result);
-                    newMinPrice = obj.getLong("min_price");
+                    newMinPrice = obj.getDouble("min_price");
                     String display_name = obj.getString("display_name");
                     if (newMinPrice < minPrice){
                         String message = "New lower price " + newMinPrice + " found for " + display_name;
@@ -56,8 +58,14 @@ class PriceTracker {
                     }
                 }
             } catch (IOException | JSONException e){
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected Void doInBackground(Void... params){
+        checkPrices();
+        return null;
     }
 }

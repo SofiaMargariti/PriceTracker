@@ -29,7 +29,7 @@ public class MyService extends Service {
             public void run() {
                 handler.post(new Runnable() {
                     public void run() {
-                        new PriceTracker(getApplicationContext()).checkPrices();
+                        new PriceTracker(getApplicationContext()).execute();
                     }
                 });
             }

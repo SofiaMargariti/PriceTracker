@@ -1,6 +1,7 @@
 package com.example.sofia.pricetracker;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -30,7 +31,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btn = (Button) findViewById(R.id.button);
         btn.setOnClickListener(this);
 
-        //startService(new Intent(this, MyService.class));
+        startService(new Intent(this, MyService.class));
     }
 
     @Override
