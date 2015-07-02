@@ -11,7 +11,7 @@ import java.util.TimerTask;
 
 public class MyService extends Service {
     private static final String TAG = "MyService";
-    private Integer DELAY = 10 * 60 * 1000; // run every 10 minutes
+    private Integer DELAY = 3 * 60 * 1000; // run every 10 minutes
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -28,8 +28,7 @@ public class MyService extends Service {
             @Override
             public void run() {
                 handler.post(new Runnable() {
-                    public void run() {
-                        new PriceTracker(getApplicationContext()).execute();
+                    public void run() {new PriceTracker(getApplicationContext()).execute();
                     }
                 });
             }

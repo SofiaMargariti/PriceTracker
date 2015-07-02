@@ -17,7 +17,7 @@ import java.util.Map;
 
 class PriceTracker extends AsyncTask<Void, Void, Void> {
 
-    private final String baseSkuUrl = "https://www.skroutz.com/sku/";
+    private final String baseSkuUrl = "https://api.skroutz.gr/skus/";
     private HashMap tracked;
     private NotificationHelper mNotificationHelper;
     private OkHttpClient client;
@@ -50,8 +50,10 @@ class PriceTracker extends AsyncTask<Void, Void, Void> {
                 result = run(skuUrl);
                 if (result != null){
                     JSONObject obj = new JSONObject(result);
-                    newMinPrice = obj.getDouble("min_price");
-                    String display_name = obj.getString("display_name");
+                    JSONObject sku = obj.getJSONObject("sku");
+                    newMinPrice = sku.getDouble("price_min");
+                    String display_name = sku.getString("display_name");
+                    newMinPrice = 1.0;
                     if (newMinPrice < minPrice){
                         String message = "New lower price " + newMinPrice + " found for " + display_name;
                         mNotificationHelper.createNotification(message, sku_id);
@@ -65,6 +67,7 @@ class PriceTracker extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params){
+        android.os.Debug.waitForDebugger();
         checkPrices();
         return null;
     }

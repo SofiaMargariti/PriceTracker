@@ -19,7 +19,8 @@ import java.io.IOException;
  */
 public class FindProductMatches extends AsyncTask<String, String, String> {
     private final static String baseSearchUrl = "https://api.skroutz.gr/search?q=%s";
-    private final static String baseFilteredCategoryUrl = "https://api.skroutz.gr/categories/%s/skus?q=%s";
+    private final static String baseFilteredCategoryUrl = "https://api.skroutz.gr/categories/%s/skus?q=%s&order_by=popularity";
+
     OkHttpClient client;
     Context context;
 

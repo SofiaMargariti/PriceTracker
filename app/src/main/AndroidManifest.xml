@@ -27,6 +27,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.sofia.pricetracker.MainActivity" />
         </activity>
+        <activity
+            android:name="com.example.sofia.pricetracker.NotificationReceiverActivity"
+            android:label="@string/title_activity_notification"
+            android:parentActivityName="com.example.sofia.pricetracker.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.sofia.pricetracker.MainActivity" />
+        </activity>
 
         <service
             android:name="com.example.sofia.pricetracker.MyService"

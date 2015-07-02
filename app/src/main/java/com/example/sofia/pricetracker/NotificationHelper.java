@@ -22,9 +22,10 @@ public class NotificationHelper {
     public void createNotification(String message, String id) {
         // Prepare intent which is triggered if the
         // notification is selected
+        int nid = 1;
         Intent intent = new Intent(context, NotificationReceiverActivity.class);
         intent.putExtra("sku_id", id);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Build notification
         // Actions are just fake
@@ -39,7 +40,7 @@ public class NotificationHelper {
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, mBuilder.build());
+        notificationManager.notify(nid, mBuilder.build());
 
     }
 }
